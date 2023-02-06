@@ -25,6 +25,6 @@ app.get("/write", function (req, res) {
 
 app.post("/add", function (req, res) {
   res.send("전송 완료!");
-  console.log(req.body.title[0]);
-  console.log(req.body.title[1]);
+  console.log(req.body.title);
+  console.log(req.body.date);
 });
