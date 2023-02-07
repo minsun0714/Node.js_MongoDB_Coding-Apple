@@ -3,9 +3,15 @@ const app = express();
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.listen(8080, function () {
-  console.log("listening on 8080");
-});
+const MongoClient = require("mongodb").MongoClient;
+MongoClient.connect(
+  "mongodb+srv://jasmine:dlalstjs22!@cluster0.aid8ftu.mongodb.net/?retryWrites=true&w=majority",
+  function (error, client) {
+    app.listen(8080, function () {
+      console.log("listening on 8080");
+    });
+  }
+);
 
 app.get("/pet", function (req, res) {
   res.send("pet용품 쇼핑할 수 있는 페이지입니다용~~");
