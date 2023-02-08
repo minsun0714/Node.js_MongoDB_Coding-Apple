@@ -17,29 +17,42 @@ MongoClient.connect(
       res.send("전송 완료!");
       const toDo = req.body.title;
       const date = req.body.date;
-      db.collection("post").insertOne(
-        { title: toDo, date: date, _id: Date.now() },
-        function (error, res) {
-          console.log("저장 완료 ~!~!~!!");
+      db.collection("counter").findOne(
+        { name: "게시물 갯수" },
+        (error, result) => {
+          let totalPosts = result.totalPost;
+
+          db.collection("post").insertOne(
+            { title: toDo, date: date, _id: totalPosts + 1 },
+            function (error, res) {
+              console.log("저장 완료!");
+              db.collection("counter").updateOne(
+                { name: "게시물 갯수" },
+                { $inc: { totalPost: 1 } },
+                function (error, result) {
+                  if (error) console.log(error);
+                }
+              );
+            }
+          );
         }
       );
     });
 
-    db.collection("post").insertOne(
-      { name: "John", age: 20, _id: 100 },
-      function (error, res) {
-        console.log("저장 완료 ~!~!~!!");
-      }
-    );
-
-    app.listen(8080, function () {
-      console.log("listening on 8080");
+    app.get("/list", function (req, response) {
+      db.collection("post")
+        .find()
+        .toArray(function (error, result) {
+          console.log("가져왔다~!");
+          console.log(result);
+          response.render("list.ejs", { posts: result });
+        });
     });
   }
 );
 
-app.get("/list", function (req, res) {
-  res.render("list.ejs");
+app.listen(8080, function () {
+  console.log("listening on 8080");
 });
 
 app.get("/pet", function (req, res) {
