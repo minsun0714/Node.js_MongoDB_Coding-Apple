@@ -4,6 +4,8 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const MongoClient = require("mongodb").MongoClient;
+app.set("view engine", ejs);
+
 var db;
 MongoClient.connect(
   "mongodb+srv://jasmine:dlalstjs22!@cluster0.aid8ftu.mongodb.net/?retryWrites=true&w=majority",
@@ -36,6 +38,10 @@ MongoClient.connect(
     });
   }
 );
+
+app.get("/list", function (req, res) {
+  res.sendFile(__dirname + "/list.html");
+});
 
 app.get("/pet", function (req, res) {
   res.send("pet용품 쇼핑할 수 있는 페이지입니다용~~");
