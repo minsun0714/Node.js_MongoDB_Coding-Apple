@@ -7,7 +7,10 @@
     <title>Document</title>
   </head>
   <body>
-    <h1>할 일: ????</h1>
-    <p>due date: ????</p>
+    <% for(let i=0;i< posts.length;i++){ %>
+    <p>id: <%= posts[i]._id%> | due date: <%= posts[i].date%></p>
+    <h1>할 일: <%= posts[i].title%></h1>
+    <hr />
+    <% } %>
   </body>
 </html>
