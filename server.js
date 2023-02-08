@@ -2,9 +2,8 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({ extended: true }));
-
 const MongoClient = require("mongodb").MongoClient;
-app.set("view engine", ejs);
+app.set("view engine", "ejs");
 
 var db;
 MongoClient.connect(
@@ -40,7 +39,7 @@ MongoClient.connect(
 );
 
 app.get("/list", function (req, res) {
-  res.sendFile(__dirname + "/list.html");
+  res.render("list.ejs");
 });
 
 app.get("/pet", function (req, res) {
