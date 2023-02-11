@@ -5,6 +5,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const MongoClient = require("mongodb").MongoClient;
 app.set("view engine", "ejs");
 
+app.use("/public", express.static("public"));
+
 var db;
 MongoClient.connect(
   "mongodb+srv://jasmine:dlalstjs22!@cluster0.aid8ftu.mongodb.net/?retryWrites=true&w=majority",
@@ -64,11 +66,11 @@ app.get("/beauty", function (req, res) {
 });
 
 app.get("/", function (req, res) {
-  res.sendFile(__dirname + "/index.html");
+  res.render("index.ejs");
 });
 
 app.get("/write", function (req, res) {
-  res.sendFile(__dirname + "/write.html");
+  res.render("write.ejs");
 });
 
 app.delete("/delete", function (req, response) {
@@ -79,4 +81,14 @@ app.delete("/delete", function (req, response) {
       message: "성공했슴당~",
     });
   });
+});
+
+app.get("/detail/:id", function (req, response) {
+  db.collection("post").findOne(
+    { _id: Number(req.params.id) },
+    function (error, result) {
+      console.log(result);
+      response.render("detail.ejs", { data: result });
+    }
+  );
 });
